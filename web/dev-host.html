@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>POC · simulador do host nativo</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+    <script>
+      // Finge ser o Flutter. Instala o mesmo canal que o WebView injeta, com o
+      // mesmo nome e a mesma assinatura (um único postMessage(string)), para
+      // dar para desenvolver a SPA sem build de app.
+      //
+      // Precisa rodar ANTES do módulo da SPA: o canal é procurado no boot.
+      (function () {
+        var params = new URLSearchParams(location.search);
+
+        // O Flutter manda o nonce na URL. Aqui geramos um se não houver.
+        if (!params.has('bridge_nonce')) {
+          var bytes = new Uint8Array(32);
+          crypto.getRandomValues(bytes);
+          params.set('bridge_nonce', btoa(String.fromCharCode.apply(null, bytes))
+            .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, ''));
+          params.set('bridge_channel', 'FlutterAuthBridge');
+          params.set('bridge_host', 'simulador');
+          location.replace(location.pathname + '?' + params.toString());
+          return;
+        }
+
+        window.__received = [];
+        window.FlutterAuthBridge = {
+          postMessage: function (raw) {
+            var parsed;
+            try { parsed = JSON.parse(raw); } catch (e) { parsed = { raw: raw }; }
+            window.__received.push(parsed);
+            var panel = document.getElementById('received');
+            if (panel) {
+              panel.textContent =
+                new Date().toISOString().slice(11, 23) + '  ' +
+                (parsed.type || '?') + '  ' +
+                JSON.stringify(parsed.payload) + '\n' + panel.textContent;
+            }
+          },
+        };
+      })();
+    </script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Login Microsoft Entra ID</h1>
+        <p id="bridge" class="badge">verificando ponte…</p>
+      </header>
+
+      <section class="card">
+        <p id="status" data-tone="info">Iniciando…</p>
+        <pre id="detail"></pre>
+        <div id="actions" hidden>
+          <button id="login" type="button">Entrar com Microsoft</button>
+        </div>
+        <button id="probe" type="button" class="secondary" hidden>
+          Testar API do Azure DevOps (pelo browser)
+        </button>
+      </section>
+
+      <details open>
+        <summary>Mensagens que chegaram ao "nativo"</summary>
+        <pre id="received"></pre>
+      </details>
+
+      <details>
+        <summary>Log da SPA</summary>
+        <pre id="log"></pre>
+      </details>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+# Flutter / Dart
+app/.dart_tool/
+app/build/
+app/.fvm/
+app/ios/Pods/
+app/ios/.symlinks/
+app/ios/Flutter/Flutter.framework/
+app/ios/Flutter/ephemeral/
+app/android/.gradle/
+app/android/local.properties
+app/android/app/debug/
+*.iml
+
+# Configuração com credenciais — NUNCA versionar
+.env
+.env.local
+
+# SPA
+web/node_modules/
+web/dist/
+
+# macOS
+.DS_Store

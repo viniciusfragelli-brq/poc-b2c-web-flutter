@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>POC · Login AD para WebView</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Login Microsoft Entra ID</h1>
+        <p id="bridge" class="badge">verificando ponte…</p>
+      </header>
+
+      <section class="card">
+        <p id="status" data-tone="info">Iniciando…</p>
+        <pre id="detail"></pre>
+
+        <div id="actions" hidden>
+          <button id="login" type="button">Entrar com Microsoft</button>
+        </div>
+
+        <button id="probe" type="button" class="secondary" hidden>
+          Testar API do Azure DevOps (pelo browser)
+        </button>
+      </section>
+
+      <details>
+        <summary>Log da SPA</summary>
+        <pre id="log"></pre>
+      </details>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
