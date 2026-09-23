@@ -16,6 +16,18 @@ Status: **validado em aparelho Android real**, com login real num tenant
 Microsoft Entra ID, token entregue ao nativo e aprovado na conferência de
 claims.
 
+## Demonstração
+
+▶️ **[b2c_web_flutter.mp4](b2c_web_flutter.mp4)** — a POC em execução, do toque
+em "Entrar com Microsoft" até o token chegando no lado nativo.
+
+<video src="b2c_web_flutter.mp4" controls width="640"></video>
+
+> O GitHub não embute vídeo referenciado por caminho do repositório — pelo link
+> acima ele baixa, e o player só aparece em editores que renderizam HTML. Para
+> ter o vídeo tocando dentro do README no GitHub, arraste o arquivo para o corpo
+> de uma issue, copie a URL de CDN que o GitHub gera e troque o `src` por ela.
+
 ---
 
 ## Bibliotecas
